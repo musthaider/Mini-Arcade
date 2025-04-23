@@ -3,8 +3,22 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 
+/**
+ * A graphical Rock Paper Scissors game
+ * The player plays against the computer. First to 3 points wins
+ * After each round, the result and score are shown
+ * Image resources for Rock, Paper, and Scissors should be located under /images/ directory.
+ *
+ * Author: Ossien Asiedu
+ */
 
 public class RockPaperScissors extends JFrame {
+
+    /**
+     * Constructs the RockPaperScissors game UI and starts the game
+     * Loads icons, sets up layout, and initializes game logic
+     */
+
     private JButton rockButton, paperButton, scissorsButton;
     private JLabel computerChoiceLabel, playerChoiceLabel, resultLabel, scoreLabel;
     private Timer animationTimer;
@@ -90,6 +104,10 @@ public class RockPaperScissors extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Loads the images for rock, paper, and scissors
+     */
+
     private void loadImages() {
         try {
             rockIcon = scaleIcon(new ImageIcon(getClass().getResource("/images/rock.png")));
@@ -101,10 +119,20 @@ public class RockPaperScissors extends JFrame {
         }
     }
 
+    /**
+     * Scales an icon to fit the game display size
+     * @param icon the original image icon
+     * @return a resized ImageIcon
+     */
+
     private ImageIcon scaleIcon(ImageIcon icon) {
         Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         return new ImageIcon(img);
     }
+
+    /**
+     * Initializes the animation that cycles images before showing the choice
+     */
 
     private void setupAnimation() {
         animationTimer = new Timer(200, new ActionListener() {
@@ -126,6 +154,12 @@ public class RockPaperScissors extends JFrame {
         });
     }
 
+    /**
+     * Updates the icon for either the player or the computer based on choice
+     * @param choice the move name ("Rock", "Paper", or "Scissors")
+     * @param isPlayer whether to update the player or computer panel
+     */
+
     private void updateIcons(String choice, boolean isPlayer) {
         ImageIcon icon = switch (choice) {
             case "Rock" -> rockIcon;
@@ -140,6 +174,11 @@ public class RockPaperScissors extends JFrame {
         }
     }
 
+    /**
+     * Handles the player's move, starts animation
+     * @param choice the move the player selected
+     */
+
     private void playerMove(String choice) {
         if (isAnimating) return;
         playerChoice = choice;
@@ -147,6 +186,10 @@ public class RockPaperScissors extends JFrame {
         setButtonsEnabled(false);
         animationTimer.start();
     }
+
+    /**
+     * Determines who wins the round and updates the score and UI accordingly
+     */
 
     private void determineWinner() {
         String computerChoice = choices[new Random().nextInt(choices.length)];
@@ -177,6 +220,11 @@ public class RockPaperScissors extends JFrame {
         }
     }
 
+    /**
+     * Ends the current match and prompts the user to play again
+     * Closes the window if the user selects No
+     */
+
     private void endGame() {
         String finalMsg = (playerScore >= 3) ? "You won the match!" : "Computer won the match!";
         resultLabel.setText("Game Over - " + finalMsg);
@@ -189,6 +237,11 @@ public class RockPaperScissors extends JFrame {
         }
     }
 
+
+    /**
+     * Resets scores, icons, and UI text for a new match
+     */
+
     private void resetGame() {
         playerScore = 0;
         computerScore = 0;
@@ -198,6 +251,11 @@ public class RockPaperScissors extends JFrame {
         playerChoiceLabel.setIcon(null);
         setButtonsEnabled(true);
     }
+
+    /**
+     * Enables or disables the move buttons
+     * @param enabled whether the buttons should be clickable or not
+     */
 
     private void setButtonsEnabled(boolean enabled) {
         rockButton.setEnabled(enabled);
