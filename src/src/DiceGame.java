@@ -126,13 +126,13 @@ public class DiceGame extends JFrame {
      * @throws HeadlessException if the environment does not support a keyboard, display, or mouse
      */
     private void checkWinner() throws HeadlessException {
-        if (playerScore >= 24 && aiScore >= 24) {
+        if (playerScore >= 50 && aiScore >= 50) {
             JOptionPane.showMessageDialog(this, "It's a tie!");
             resetGame();
-        } else if (playerScore >= 24) {
+        } else if (playerScore >= 50) {
             JOptionPane.showMessageDialog(this, "You win!");
             resetGame();
-        } else if (aiScore >= 24) {
+        } else if (aiScore >= 50) {
             JOptionPane.showMessageDialog(this, "AI wins!");
             resetGame();
         }
