@@ -205,7 +205,4 @@ public class RockPaperScissors extends JFrame {
         scissorsButton.setEnabled(enabled);
     }
 
-    public static void main(String[] args) {
-        new RockPaperScissors();
-    }
 }

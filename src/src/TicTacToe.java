@@ -1,6 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * A Tic Tac Toe game. Supports both two-player mode and
+ * player vs computer mode with a basic AI that plays the first empty spot it finds
+ * After each game, you can choose to restart or return to the game mode selection menu
+ *
+ * @author AbdulAziz Heji
+ */
 public class TicTacToe {
     private JFrame frame;
     private JButton[][] buttons;
@@ -8,12 +15,31 @@ public class TicTacToe {
     private char currentPlayer = 'X';
     private boolean vsComputer;
 
+    /**
+     * Constructs a new TicTacToe game by showing the initial game mode menu
+     */
     public TicTacToe() {
+        showMenu();
+    }
+
+    /**
+     * Displays a menu dialog to let the user choose between two-player or vs computer mode.
+     * If the user closes the dialog, the program exits.
+     */
+    private void showMenu() {
         String[] options = {"2 Players", "Play vs Computer"};
         int choice = JOptionPane.showOptionDialog(null, "Choose game mode:", "Tic Tac Toe",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-        vsComputer = (choice == 1);
 
+        if (choice == JOptionPane.CLOSED_OPTION) return;
+        vsComputer = (choice == 1);
+        setupGame();
+    }
+
+    /**
+     * Sets up the game window and initializes the game board UI
+     */
+    private void setupGame() {
         frame = new JFrame("Tic Tac Toe");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(400, 400);
@@ -21,6 +47,7 @@ public class TicTacToe {
 
         buttons = new JButton[3][3];
         board = new char[3][3];
+        currentPlayer = 'X';
 
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
@@ -38,20 +65,23 @@ public class TicTacToe {
         frame.setVisible(true);
     }
 
+    /**
+     * Handles a player's move at the specified row and column.
+     * @param row the row index of the move
+     * @param col the column index of the move
+     */
     private void handleMove(int row, int col) {
         if (board[row][col] == ' ') {
             board[row][col] = currentPlayer;
             buttons[row][col].setText(String.valueOf(currentPlayer));
 
             if (checkWinner() != ' ') {
-                JOptionPane.showMessageDialog(frame, currentPlayer + " wins!");
-                resetGame();
+                endGame(currentPlayer + " wins!");
                 return;
             }
 
             if (isBoardFull()) {
-                JOptionPane.showMessageDialog(frame, "It's a draw!");
-                resetGame();
+                endGame("It's a draw!");
                 return;
             }
 
@@ -62,7 +92,9 @@ public class TicTacToe {
             }
         }
     }
-
+    /**
+     * Makes a move for the computer player by placing 'O' in the first available spot
+     */
     private void computerMove() {
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
@@ -71,14 +103,12 @@ public class TicTacToe {
                     buttons[r][c].setText("O");
 
                     if (checkWinner() != ' ') {
-                        JOptionPane.showMessageDialog(frame, "O wins!");
-                        resetGame();
+                        endGame("O wins!");
                         return;
                     }
 
                     if (isBoardFull()) {
-                        JOptionPane.showMessageDialog(frame, "It's a draw!");
-                        resetGame();
+                        endGame("It's a draw!");
                         return;
                     }
 
@@ -89,6 +119,10 @@ public class TicTacToe {
         }
     }
 
+    /**
+     * Checks whether the board is full.
+     * @return true if there are no empty cells left, false otherwise
+     */
     private boolean isBoardFull() {
         for (int r = 0; r < 3; r++)
             for (int c = 0; c < 3; c++)
@@ -97,6 +131,10 @@ public class TicTacToe {
         return true;
     }
 
+    /**
+     * Checks for a winning condition.
+     * @return the character ('X' or 'O') of the winner, or a space ' ' if no winner yet
+     */
     private char checkWinner() {
         for (int i = 0; i < 3; i++) {
             if (board[i][0] != ' ' && board[i][0] == board[i][1] && board[i][1] == board[i][2])
@@ -111,6 +149,27 @@ public class TicTacToe {
         return ' ';
     }
 
+    /**
+     * Ends the current game and shows a dialog with the result message.
+     * Lets the user restart the game or return to the game mode selection menu.
+     * @param message the result message to show (e.g., who won or if it's a draw)
+     * @throws HeadlessException if GUI components are not supported
+     */
+    private void endGame(String message) throws HeadlessException {
+        String[] options = {"Restart Game", "Return to Menu"};
+        int choice = JOptionPane.showOptionDialog(frame, message, "Game Over",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+
+        if (choice == 0) {
+            resetGame();
+        } else {
+            frame.dispose();
+            showMenu();
+        }
+    }
+    /**
+     * Resets the game board and updates the UI to start a new round.
+     */
     private void resetGame() {
         currentPlayer = 'X';
         for (int r = 0; r < 3; r++) {
@@ -119,9 +178,5 @@ public class TicTacToe {
                 buttons[r][c].setText("");
             }
         }
-    }
-
-    public static void main(String[] args) {
-        new TicTacToe();
     }
 }
