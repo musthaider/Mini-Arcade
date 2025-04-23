@@ -9,7 +9,7 @@ import java.util.Random;
  * After each round, the result and score are shown
  * Image resources for Rock, Paper, and Scissors should be located under /images/ directory
  *
- * Author: Ossien Asiedu
+ * Author: AbdulAziz Heji
  */
 
 public class RockPaperScissors extends JFrame {
