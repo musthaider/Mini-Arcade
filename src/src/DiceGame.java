@@ -82,24 +82,16 @@ public class DiceGame extends JFrame {
 
     /**
      * Rolls the dice for both player and AI, updates scores and streaks,
-     * and checks for any winning condition.
+     * and checks for any winning condition, lose half if you roll 1
      */
     private void rollDice() {
         int playerRoll = random.nextInt(6) + 1;
         int aiRoll = random.nextInt(6) + 1;
 
-        if (playerRoll == previousRoll) {
-            streak++;
-        } else {
-            streak = 1;
-        }
-        previousRoll = playerRoll;
-
-        if (streak == 3) {
-            playerScore = 0;
-            streak = 0;
-            messageLabel.setText("Rolled " + playerRoll + " again! Streak reset!");
-            turnLog.append("Player rolled " + playerRoll + " (Streak reset!)\n");
+        if (playerRoll == 1) {
+            playerScore /= 2;
+            messageLabel.setText("You rolled a 1! Half your score is gone.");
+            turnLog.append("Player rolled a 1 and lost half their score!\n");
         } else {
             playerScore += playerRoll;
             aiScore += aiRoll;
@@ -110,6 +102,7 @@ public class DiceGame extends JFrame {
         playerScores();
         checkWinner();
     }
+
 
     /**
      * Updates the score labels to reflect the current scores.
