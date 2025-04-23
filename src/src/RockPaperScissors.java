@@ -7,7 +7,7 @@ import java.util.Random;
  * A graphical Rock Paper Scissors game
  * The player plays against the computer. First to 3 points wins
  * After each round, the result and score are shown
- * Image resources for Rock, Paper, and Scissors should be located under /images/ directory.
+ * Image resources for Rock, Paper, and Scissors should be located under /images/ directory
  *
  * Author: Ossien Asiedu
  */
