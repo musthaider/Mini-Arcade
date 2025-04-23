@@ -6,7 +6,7 @@ import java.awt.*;
  * player vs computer mode with a basic AI that plays the first empty spot it finds
  * After each game, you can choose to restart or return to the game mode selection menu
  *
- * @author AbdulAziz Heji
+ * @author Ossien Asiedu
  */
 public class TicTacToe {
     private JFrame frame;
