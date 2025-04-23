@@ -15,7 +15,6 @@ public class DiceGame extends JFrame {
     }
 
     private void initGame() {
-        // Dice side selection, roll animation, result display
     }
 
     private void returnToMenu() {
