@@ -90,14 +90,21 @@ public class DiceGame extends JFrame {
 
         if (playerRoll == 1) {
             playerScore /= 2;
-            messageLabel.setText("You rolled a 1! Half your score is gone.");
             turnLog.append("Player rolled a 1 and lost half their score!\n");
         } else {
             playerScore += playerRoll;
-            aiScore += aiRoll;
-            messageLabel.setText("You rolled: " + playerRoll + ", AI rolled: " + aiRoll);
-            turnLog.append("You: " + playerRoll + " | AI: " + aiRoll + "\n");
         }
+
+        if (aiRoll == 1) {
+            aiScore /= 2;
+            turnLog.append("AI rolled a 1 and lost half their score!\n");
+        } else {
+            aiScore += aiRoll;
+        }
+
+        messageLabel.setText("You rolled: " + playerRoll + ", AI rolled: " + aiRoll);
+        turnLog.append("You: " + playerRoll + " | AI: " + aiRoll + "\n");
+
 
         playerScores();
         checkWinner();
