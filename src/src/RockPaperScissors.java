@@ -46,6 +46,7 @@ public class RockPaperScissors extends JFrame {
         JPanel computerPanel = new JPanel();
         computerPanel.setLayout(new BoxLayout(computerPanel, BoxLayout.Y_AXIS));
         JLabel computerLabel = new JLabel("Computer", JLabel.CENTER);
+        computerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         computerLabel.setFont(new Font("Arial", Font.BOLD, 32));
         computerChoiceLabel = new JLabel();
         computerChoiceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -56,6 +57,7 @@ public class RockPaperScissors extends JFrame {
         JPanel playerPanel = new JPanel();
         playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
         JLabel playerLabel = new JLabel("Player", JLabel.CENTER);
+        playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         playerLabel.setFont(new Font("Arial", Font.BOLD, 32));
         playerChoiceLabel = new JLabel();
         playerChoiceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
