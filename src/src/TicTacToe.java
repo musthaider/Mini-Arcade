@@ -5,7 +5,7 @@ import java.awt.*;
  * A Tic Tac Toe game. Supports both two-player mode and
  * player vs computer mode with a basic AI that plays the first empty spot it finds
  * After each game, you can choose to restart or return to the game mode selection menu
- *
+ * @verison 1.3
  * @author Ossien Asiedu
  */
 public class TicTacToe {
@@ -96,28 +96,70 @@ public class TicTacToe {
      * Makes a move for the computer player by placing 'O' in the first available spot
      */
     private void computerMove() {
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 3; c++) {
-                if (board[r][c] == ' ') {
-                    board[r][c] = 'O';
-                    buttons[r][c].setText("O");
-
-                    if (checkWinner() != ' ') {
-                        endGame("O wins!");
-                        return;
+        // 70% chance to play smart
+        if (Math.random() < 0.7) {
+            // Try to win
+            for (int r = 0; r < 3; r++) {
+                for (int c = 0; c < 3; c++) {
+                    if (board[r][c] == ' ') {
+                        board[r][c] = 'O';
+                        if (checkWinner() == 'O') {
+                            buttons[r][c].setText("O");
+                            finishMove();
+                            return;
+                        }
+                        board[r][c] = ' ';
                     }
-
-                    if (isBoardFull()) {
-                        endGame("It's a draw!");
-                        return;
+                }
+            }
+            // Try to block player
+            for (int r = 0; r < 3; r++) {
+                for (int c = 0; c < 3; c++) {
+                    if (board[r][c] == ' ') {
+                        board[r][c] = 'X';
+                        if (checkWinner() == 'X') {
+                            board[r][c] = 'O';
+                            buttons[r][c].setText("O");
+                            finishMove();
+                            return;
+                        }
+                        board[r][c] = ' ';
                     }
-
-                    currentPlayer = 'X';
-                    return;
                 }
             }
         }
+
+        // Otherwise pick a random spot
+        java.util.List<int[]> emptySpots = new java.util.ArrayList<>();
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                if (board[r][c] == ' ') {
+                    emptySpots.add(new int[]{r, c});
+                }
+            }
+        }
+
+        if (!emptySpots.isEmpty()) {
+            int[] move = emptySpots.get((int) (Math.random() * emptySpots.size()));
+            int r = move[0], c = move[1];
+            board[r][c] = 'O';
+            buttons[r][c].setText("O");
+        }
+
+        finishMove();
     }
+
+    // Helper to avoid repeating code
+    private void finishMove() {
+        if (checkWinner() != ' ') {
+            endGame("O wins!");
+        } else if (isBoardFull()) {
+            endGame("It's a draw!");
+        } else {
+            currentPlayer = 'X';
+        }
+    }
+
 
     /**
      * Checks whether the board is full.
